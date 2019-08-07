@@ -42,13 +42,8 @@ class PasswordResetController extends Controller
         return response()->json([
             'message' => 'We have e-mailed your password reset link!',
         ]);
-    }/**
-     * Find token password reset
-     *
-     * @param  [string] $token
-     * @return [string] message
-     * @return [json] passwordReset object
-     */
+    }
+    
     public function find($token)
     {
         $passwordReset = PasswordReset::where('token', $token)
@@ -63,16 +58,8 @@ class PasswordResetController extends Controller
                 'message' => 'This password reset token is invalid.',
             ], 404);
         }return response()->json($passwordReset);
-    }/**
-     * Reset password
-     *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [string] password_confirmation
-     * @param  [string] token
-     * @return [string] message
-     * @return [json] user object
-     */
+    }
+
     public function reset(Request $request)
     {
         $request->validate([
