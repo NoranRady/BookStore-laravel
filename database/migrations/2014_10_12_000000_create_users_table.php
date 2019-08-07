@@ -25,6 +25,12 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamps();
+        });
     }
 
     /**

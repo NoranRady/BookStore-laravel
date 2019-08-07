@@ -26,7 +26,7 @@ class BookService implements BookServiceInterface
         $this->bookRepo->update($request_values);
     }
 
-    public function delete(){
+    public function delete($id){
         $book=$this->bookRepo->delete($id);
     }
     

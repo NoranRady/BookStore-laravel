@@ -19,7 +19,8 @@ class BookController extends Controller
     }
 
     public function store(Request $request)
-    { 
+    {
+      
       $request_values=$request->all();
       $this->bookService->store($request_values);     
        
@@ -38,11 +39,11 @@ class BookController extends Controller
         $this->bookService->update($request_values);
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
-        // $id=$request->get('id');
-        // echo($id);
-        // $this->bookService->delete($id);
+         $id=$request->get('id');
+        
+         $this->bookService->delete($id);
         //
     }
 }

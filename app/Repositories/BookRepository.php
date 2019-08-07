@@ -31,8 +31,9 @@ class BookRepository implements BookRepositoryInterface
         $book->save();
 
     }
-    public function delete(){
-        
+    public function delete($id){
+       // $book=Books::find($id);
+        Books::destroy($id);
 
     }
     public function show($id){

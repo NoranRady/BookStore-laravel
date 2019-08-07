@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::post('/posts','BookController@store');
-Route::delete('/delete','BookController@destroy');
+Route::get('/delete','BookController@destroy');
 Route::post('/update','BookController@update');
 Route::get('/index','BookController@index');
 Route::get('/show','BookController@show');
@@ -21,14 +21,24 @@ Route::get('/show','BookController@show');
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-
+Route::group([    
+    'namespace' => 'Auth',    
+    'middleware' => 'api',    
+    'prefix' => 'password'
+], function () {    
+    Route::post('create', 'PasswordResetController@create');
+    Route::get('find/{token}', 'PasswordResetController@find');
+    Route::post('reset', 'PasswordResetController@reset');
+});
 Route::group([
     'prefix' => 'auth'
 ], function () {
+    Route::get('/send/email', 'AuthController@mail');
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
-  
-    Route::group([
+    Route::get('signup/activate/{token}', 'AuthController@signupActivate');
+    
+Route::group([
       'middleware' => 'auth:api'
     ], function() {
         Route::get('logout', 'AuthController@logout');

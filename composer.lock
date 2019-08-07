@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "222decffa097b5607522733483950280",
+    "content-hash": "b411b938306b7c189de2b8d9b87518a3",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -1390,16 +1390,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.22.0",
+            "version": "2.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "1a0e48b5f656065ba3c265b058b25d36c2162a5e"
+                "reference": "f572ec37cf37e192e851197a5867d041ab404785"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1a0e48b5f656065ba3c265b058b25d36c2162a5e",
-                "reference": "1a0e48b5f656065ba3c265b058b25d36c2162a5e",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/f572ec37cf37e192e851197a5867d041ab404785",
+                "reference": "f572ec37cf37e192e851197a5867d041ab404785",
                 "shasum": ""
             },
             "require": {
@@ -1453,7 +1453,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-07-28T09:02:12+00:00"
+            "time": "2019-08-06T18:57:53+00:00"
         },
         {
             "name": "nikic/php-parser",
