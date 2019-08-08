@@ -173,6 +173,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\BookServiceProvider::class,
         App\Providers\UserServiceProvider::class,
+        App\Providers\PasswordServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
