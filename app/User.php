@@ -2,13 +2,12 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Passport\HasApiTokens;
-
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use Storage;
+use App\Role;
 
 class User extends Authenticatable
 {
@@ -20,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'activation_token', 'active', 'avatar'
+        'name', 'email', 'password', 'activation_token', 'active', 'avatar',
     ];
 
     /**
@@ -29,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'activation_token'
+        'password', 'remember_token', 'activation_token',
     ];
 
     /**
@@ -43,6 +42,30 @@ class User extends Authenticatable
     protected $appends = ['avatar_url'];
     public function getAvatarUrlAttribute()
     {
-        return Storage::url('avatars/'.$this->id.'/'.$this->avatar);
+        return Storage::url('avatars/' . $this->id . '/' . $this->avatar);
     }
+   
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+    
+    public function authorizeRoles($roles)
+    {
+        if (is_array($roles)) {
+            return $this->hasAnyRole($roles) || abort(401, 'This action is unauthorized.');
+        }
+        return $this->hasRole($roles) || abort(401, 'This action is unauthorized.');
+    }
+    
+    public function hasAnyRole($roles)
+    {
+        return null !== $this->roles()->whereIn('name', $roles)->first();
+    }
+    
+    public function hasRole($role)
+    {  
+        return null !== $this->roles()->where('name', $role)->first();
+    }
+
 }

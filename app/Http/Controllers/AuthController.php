@@ -15,6 +15,7 @@ class AuthController extends Controller
     public function __construct(UserServiceInterface $userService)
     {
         $this->userService = $userService;
+      
     }
 
     public function signup(Request $request)

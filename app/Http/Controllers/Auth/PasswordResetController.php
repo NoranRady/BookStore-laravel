@@ -12,12 +12,7 @@ use Illuminate\Http\Request;
 
 class PasswordResetController extends Controller
 {
-    /**
-     * Create token password reset
-     *
-     * @param  [string] email
-     * @return [string] message
-     */
+
     private $passwordService;
     public function __construct(PasswordServiceInterface $passwordService)
     {

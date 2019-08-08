@@ -2,16 +2,18 @@
 namespace App\Repositories;
 
 use App\Notifications\SignupActivate;
-use App\Notifications\WelcomeMail;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Services\MailService;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Services\MailService;
+use App\Role;
+
 class UserRepository implements UserRepositoryInterface
 {
 
+    
     public function signup($request)
     {
 
@@ -21,7 +23,11 @@ class UserRepository implements UserRepositoryInterface
             'password' => bcrypt($request->password),
             'activation_token' => str_random(60),
         ]);
+        
         $user->save();
+        $user
+            ->roles()
+            ->attach(Role::where('name', 'employee')->first());
         $user->notify(new SignupActivate($user));
         return response()->json([
             'message' => 'Successfully created user!',
@@ -71,7 +77,8 @@ class UserRepository implements UserRepositoryInterface
         ]);
 
     }
-    public function logout($request){
+    public function logout($request)
+    {
         $request->user()->token()->revoke();
         return response()->json([
             'message' => 'Successfully logged out',

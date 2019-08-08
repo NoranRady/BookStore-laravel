@@ -13,7 +13,8 @@ class BookRepository implements BookRepositoryInterface
     private $Book;
     function __construct(Books $Book) {
 
-	    $this->Book= $Book;
+        $this->Book= $Book;
+       // $this->middleware('auth');
     }
     public function store($request_values)
     {
@@ -33,6 +34,7 @@ class BookRepository implements BookRepositoryInterface
     }
     public function delete($id){
        // $book=Books::find($id);
+      // $request->user()->authorizeRoles(['employee']);
         Books::destroy($id);
 
     }

@@ -11,6 +11,7 @@ class BookController extends Controller
     private $bookService;
     function __construct(BookServiceInterface $bookService){
         $this->bookService=$bookService;
+      //  $this->middleware('auth');
     }
 
     public function index()
@@ -42,7 +43,9 @@ class BookController extends Controller
     public function destroy(Request $request)
     {
          $id=$request->get('id');
-        
+        // $user = User::where('activation_token', $token)->first();
+        //$request->user()->authorizeRoles(['employee']);
+      //  $user->authorizeRoles(['employee']);
          $this->bookService->delete($id);
         //
     }
