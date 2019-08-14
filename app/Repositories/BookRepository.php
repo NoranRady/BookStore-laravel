@@ -36,6 +36,7 @@ class BookRepository implements BookRepositoryInterface
        // $book=Books::find($id);
       // $request->user()->authorizeRoles(['employee']);
         Books::destroy($id);
+        return "Deleted!";
 
     }
     public function show($id){

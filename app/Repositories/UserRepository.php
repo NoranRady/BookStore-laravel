@@ -19,15 +19,16 @@ class UserRepository implements UserRepositoryInterface
 
         $user = new User([
             'name' => $request->name,
+            'position'=>$request->position,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'activation_token' => str_random(60),
         ]);
-        
+        $role=$request->position ;
         $user->save();
         $user
             ->roles()
-            ->attach(Role::where('name', 'employee')->first());
+            ->attach(Role::where('name',$role)->first());
         $user->notify(new SignupActivate($user));
         return response()->json([
             'message' => 'Successfully created user!',

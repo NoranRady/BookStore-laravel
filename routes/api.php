@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::post('/posts','BookController@store');
-Route::get('/delete','BookController@destroy');
+
 Route::post('/update','BookController@update');
 Route::get('/index','BookController@index');
 Route::get('/show','BookController@show');
@@ -21,6 +21,8 @@ Route::get('/show','BookController@show');
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+// Route::middleware('Authenticate:api')->function() {
+//     Route::get('logout', 'AuthController@logout')};
 Route::group([    
     'namespace' => 'Auth',    
     'middleware' => 'api',    
@@ -37,11 +39,14 @@ Route::group([
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
     Route::get('signup/activate/{token}', 'AuthController@signupActivate');
-    
+
 Route::group([
       'middleware' => 'auth:api'
     ], function() {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
+     //   Route::get('delete','BookController@destroy');
+        
     });
-});
+}); 
+Route::middleware('auth:api','checkAuth')->get('delete','BookController@destroy');
