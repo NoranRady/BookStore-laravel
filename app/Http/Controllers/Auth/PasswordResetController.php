@@ -1,14 +1,16 @@
 <?php
 namespace App\Http\Controllers\Auth;
 
+use App\User;
+use Carbon\Carbon;
+use App\PasswordReset;
+use Illuminate\Http\Request;
+use App\Http\Requests\MailRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PasswordRequest;
 use App\Notifications\PasswordResetRequest;
 use App\Notifications\PasswordResetSuccess;
 use App\Services\Interfaces\PasswordServiceInterface ;
-use App\PasswordReset;
-use App\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class PasswordResetController extends Controller
 {
@@ -19,11 +21,8 @@ class PasswordResetController extends Controller
         $this->passwordService = $passwordService;
     }
 
-    public function create(Request $request)
+    public function create(MailRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-        ]);
         $email=$request['email'];
         return $this->passwordService->create($email);
      
@@ -35,13 +34,8 @@ class PasswordResetController extends Controller
        
     }
 
-    public function reset(Request $request)
+    public function reset(PasswordRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string|confirmed',
-            'token' => 'required|string',
-        ]);
         $email=$request['email'];
         $password=$request['password'];
         $token=$request['token'];

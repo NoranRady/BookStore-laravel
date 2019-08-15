@@ -14,12 +14,12 @@ class BookController extends Controller
         $this->bookService = $bookService;
     }
 
-    public function index()
+    public function getAll()
     {
-        $book = $this->bookService->index();
+        $book = $this->bookService->getAll();
     }
 
-    public function store(Request $request)
+    public function create(Request $request)
     {
         $request_values = $request->all();
         $bookname = $request_values['bookname'];
@@ -28,12 +28,12 @@ class BookController extends Controller
         $publication_date = $request_values['publication_date'];
         $language = $request_values['language'];
         $description = $request_values['description'];
-        $this->bookService->store($bookname, $isbn, $author, $publication_date, $language, $description);
+        $this->bookService->create($bookname, $isbn, $author, $publication_date, $language, $description);
     }
 
-    public function show($bookId)
+    public function findById($bookId)
     {
-        $this->bookService->show($bookId);
+        $this->bookService->findById($bookId);
     }
 
     public function update(Request $request, $bookId)
@@ -49,7 +49,7 @@ class BookController extends Controller
         $this->bookService->update($id, $bookname, $isbn, $author, $publication_date, $language, $description);
     }
 
-    public function destroy($bookId)
+    public function delete($bookId)
     {
         $id = $bookId;
         return $this->bookService->delete($id);

@@ -10,11 +10,11 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
  */
-Route::post('/books', 'BookController@store');
+Route::post('/books', 'BookController@create');
 Route::post('/books/{bookId}', 'BookController@update');
-Route::get('/books', 'BookController@index');
-Route::get('/books/{bookId}', 'BookController@show');
-Route::middleware('auth:api', 'checkAuth')->delete('/books/{bookId}', 'BookController@destroy');
+Route::get('/books', 'BookController@getAll');
+Route::get('/books/{bookId}', 'BookController@findById');
+Route::middleware('auth:api', 'checkAuth')->delete('/books/{bookId}', 'BookController@delete');
 
 Route::group([
     'namespace' => 'Auth',

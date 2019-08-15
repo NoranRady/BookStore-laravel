@@ -1,13 +1,16 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Notifications\SignupActivate;
-use App\Services\Interfaces\UserServiceInterface;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-//use App\Mail\SendMailable;
 use App\Services\MailService;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\SignupRequest;
+//use App\Mail\SendMailable;
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\SignupActivate;
+use App\Services\Interfaces\UserServiceInterface;
+
 class AuthController extends Controller
 {
 
@@ -18,14 +21,8 @@ class AuthController extends Controller
       
     }
 
-    public function signup(Request $request)
+    public function signup(SignupRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-           // 'position' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed',
-        ]);
         $request_values = $request->all();
         $name=$request_values['name'];
         $position=$request_values['position'];
@@ -39,13 +36,8 @@ class AuthController extends Controller
 
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-            'remember_me' => 'boolean',
-        ]);
         $email=$request['email'];
         $password=$request['password'];
         $user=$request->user();

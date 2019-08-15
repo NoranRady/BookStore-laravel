@@ -12,7 +12,7 @@ class BookRepository implements BookRepositoryInterface
     {
         $this->Book = $Book;
     }
-    public function store($bookname, $isbn, $author, $publication_date, $language, $description)
+    public function create($bookname, $isbn, $author, $publication_date, $language, $description)
     {
         $book = Books::create([
             'bookname' => $bookname,
@@ -40,12 +40,12 @@ class BookRepository implements BookRepositoryInterface
         Books::destroy($id);
         return "Deleted!";
     }
-    public function show($id)
+    public function findById($id)
     {
         $book = Books::find($id);
         echo ($book);
     }
-    public function index()
+    public function getAll()
     {
         $book = Books::all();
         echo ($book);
