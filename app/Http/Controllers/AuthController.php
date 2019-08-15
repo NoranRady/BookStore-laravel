@@ -26,7 +26,12 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed',
         ]);
-        return $this->userService->signup($request);
+        $request_values = $request->all();
+        $name=$request_values['name'];
+        $position=$request_values['position'];
+        $email=$request_values['email'];
+        $password=$request_values['password'];
+        return $this->userService->signup($name,$position,$email,$password);
     }
     public function signupActivate($token)
     {
@@ -41,26 +46,26 @@ class AuthController extends Controller
             'password' => 'required|string',
             'remember_me' => 'boolean',
         ]);
-        return $this->userService->login($request);
+        $email=$request['email'];
+        $password=$request['password'];
+        $user=$request->user();
+        //dd($user);
+        return $this->userService->login($email, $password,$user,$request);
 
     }
 
     public function logout(Request $request)
     {
-        return $this->userService->logout($request);
+        $user=$request->user();
+        return $this->userService->logout($user);
 
     }
 
     public function user(Request $request)
-    {
-        return $this->userService->user($request);
+    { 
+        $user=$request->user();
+        return $this->userService->user($user);
     }
 
-    // public function mail()
-    // {
-    //     $name = 'Noran';
-    //     Mail::to('noran.rady@softxpert.com')->send(new MailService($name));
-
-    //     return 'Email was sent';
-    // }
+   
 }

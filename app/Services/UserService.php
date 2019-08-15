@@ -15,9 +15,9 @@ class UserService implements UserServiceInterface
 
         $this->userRepo=$userRepo;
     }
-    public function signup($request)
+    public function signup($name,$position,$email,$password)
     {
-      return  $this->userRepo->signup($request); 
+      return  $this->userRepo->signup($name,$position,$email,$password); 
         
     }
     public function signupActivate($token)
@@ -25,14 +25,14 @@ class UserService implements UserServiceInterface
         return  $this->userRepo->signupActivate($token); 
        
     }
-    public function login($request){
-        return  $this->userRepo->login($request); 
+    public function login($email, $password,$user,$request){
+        return  $this->userRepo->login($email, $password,$user,$request); 
     }
-    public function logout($request){
-        return  $this->userRepo->logout($request); 
+    public function logout($user){
+        return  $this->userRepo->logout($user); 
     }
-    public function user($request){
-        return  $this->userRepo->user($request); 
+    public function user($user){
+        return  $this->userRepo->user($user); 
     }
 
 }

@@ -5,9 +5,9 @@ use Illuminate\Http\Request;
 
 interface PasswordRepositoryInterface {
 
-    public function create(Request $request);
+    public function create($email);
     public function find($token);
-    public function reset(Request $request);
+    public function reset($email,$password,$token);
 
 
 }

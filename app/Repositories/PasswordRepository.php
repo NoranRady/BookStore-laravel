@@ -17,22 +17,22 @@ class PasswordRepository implements PasswordRepositoryInterface
 
         $this->password = $password;
     }
-    public function create(Request $request)
+    public function create( $email)
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $email)->first();
         if (!$user) {
             return response()->json([
                 'message' => 'We cant find a user with that e-mail address.',
             ], 404);
         }
-
         $passwordReset = PasswordReset::updateOrCreate(
             ['email' => $user->email],
             [
                 'email' => $user->email,
                 'token' => str_random(60),
             ]
-        );if ($user && $passwordReset) {
+        );
+        if ($user && $passwordReset) {
             $user->notify(
                 new PasswordResetRequest($passwordReset->token)
             );
@@ -57,11 +57,11 @@ class PasswordRepository implements PasswordRepositoryInterface
             ], 404);
         }return response()->json($passwordReset);
     }
-    public function reset(Request $request)
+    public function reset($email,$password,$token)
     {
         $passwordReset = PasswordReset::where([
-            ['token', $request->token],
-            ['email', $request->email],
+            ['token',$token],
+            ['email',$email],
         ])->first();
         if (!$passwordReset) {
             return response()->json([
@@ -76,9 +76,10 @@ class PasswordRepository implements PasswordRepositoryInterface
             ], 404);
         }
 
-        $user->password = bcrypt($request->password);
+        $user->password = bcrypt($password);
         $user->save();
         $passwordReset->delete();
-        $user->notify(new PasswordResetSuccess($passwordReset));return response()->json($user);
+        $user->notify(new PasswordResetSuccess($passwordReset));
+        return response()->json($user);
     }
 }

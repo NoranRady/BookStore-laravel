@@ -18,12 +18,12 @@ class BookService implements BookServiceInterface
         $this->bookRepo->index();
     }
     
-    public function store($request_values){    
-        $this->bookRepo->store($request_values); 
+    public function store($bookname,$isbn,$author,$publication_date,$language,$description){    
+        $this->bookRepo->store($bookname,$isbn,$author,$publication_date,$language,$description); 
     }
 
-    public function update($request_values){
-        $this->bookRepo->update($request_values);
+    public function update($id,$bookname,$isbn,$author,$publication_date,$language,$description){
+        $this->bookRepo->update($id,$bookname,$isbn,$author,$publication_date,$language,$description);
     }
 
     public function delete($id){

@@ -14,17 +14,17 @@ class UserRepository implements UserRepositoryInterface
 {
 
     
-    public function signup($request)
+    public function signup($name,$position,$email,$password)
     {
 
         $user = new User([
-            'name' => $request->name,
-            'position'=>$request->position,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'name' => $name,
+            'position'=>$position,
+            'email' => $email,
+            'password' => bcrypt($password),
             'activation_token' => str_random(60),
         ]);
-        $role=$request->position ;
+        $role=$position ;
         $user->save();
         $user
             ->roles()
@@ -51,9 +51,11 @@ class UserRepository implements UserRepositoryInterface
         Mail::to($user->email)->queue(new MailService($user->name));
         return $user;
     }
-    public function login($request)
+    public function login($email, $password,$user,$request)
     {
-        $credentials = request(['email', 'password']);
+        //$credentials = request(['email', 'password']);
+        $credentials['email'] = $email;
+        $credentials['password']=$password;
         $credentials['active'] = 1;
         $credentials['deleted_at'] = null;
         if (!Auth::attempt($credentials)) {
@@ -63,13 +65,16 @@ class UserRepository implements UserRepositoryInterface
         }
 
         $user = $request->user();
+  //dd($request->user());
+  //dd($user);
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me) {
             $token->expires_at = Carbon::now()->addWeeks(1);
         }
 
-        $token->save();return response()->json([
+        $token->save();
+        return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
@@ -78,15 +83,16 @@ class UserRepository implements UserRepositoryInterface
         ]);
 
     }
-    public function logout($request)
+    public function logout($user)
     {
-        $request->user()->token()->revoke();
+        $user->token()->revoke();
+       // $request->user()->token()->revoke();
         return response()->json([
             'message' => 'Successfully logged out',
         ]);
     }
-    public function user($request)
+    public function user($user)
     {
-        return response()->json($request->user());
+        return response()->json($user);
     }
 }

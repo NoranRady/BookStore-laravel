@@ -3,9 +3,9 @@ namespace App\Repositories\Interfaces;
 
 interface UserRepositoryInterface {
 
-    public function signup($request);
+    public function signup($name,$position,$email,$passwords);
     public function signupActivate($token);
-    public function login($request);
-    public function logout($request);
-    public function user($request);
+    public function login($email, $password,$user,$request);
+    public function logout($user);
+    public function user($user);
 }

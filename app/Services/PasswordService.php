@@ -14,17 +14,17 @@ class PasswordService implements PasswordServiceInterface
 
         $this->passwordRepo = $passwordRepo;
     }
-    public function create($request)
+    public function create($email)
     {
-        return $this->passwordRepo->create($request);
+        return $this->passwordRepo->create($email);
     }
     public function find($token)
     {
         return $this->passwordRepo->find($token);
 
     }
-    public function reset($request)
+    public function reset($email,$password,$token)
     {
-        return $this->passwordRepo->reset($request);
+        return $this->passwordRepo->reset($email,$password,$token);
     }
 }
