@@ -39,7 +39,6 @@ class BookRepository implements BookRepositoryInterface
     {
         Books::destroy($id);
         return "Deleted!";
-
     }
     public function show($id)
     {

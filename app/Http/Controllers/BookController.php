@@ -12,7 +12,6 @@ class BookController extends Controller
     public function __construct(BookServiceInterface $bookService)
     {
         $this->bookService = $bookService;
-        // $this->middleware('checkAuth');
     }
 
     public function index()
@@ -22,7 +21,6 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-
         $request_values = $request->all();
         $bookname = $request_values['bookname'];
         $isbn = $request_values['isbn'];
@@ -31,20 +29,17 @@ class BookController extends Controller
         $language = $request_values['language'];
         $description = $request_values['description'];
         $this->bookService->store($bookname, $isbn, $author, $publication_date, $language, $description);
-
     }
 
-    public function show(Request $request)
+    public function show($bookId)
     {
-        $id = $request->get('id');
-        echo ($id);
-        $this->bookService->show($id);
+        $this->bookService->show($bookId);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $bookId)
     {
         $request_values = $request->all();
-        $id = $request_values['id'];
+        $id = $bookId;
         $bookname = $request_values['bookname'];
         $isbn = $request_values['isbn'];
         $author = $request_values['author'];
@@ -54,10 +49,9 @@ class BookController extends Controller
         $this->bookService->update($id, $bookname, $isbn, $author, $publication_date, $language, $description);
     }
 
-    public function destroy(Request $request)
-    { // $request->user()->authorizeRoles(['employee']);
-        $id = $request->get('id');
+    public function destroy($bookId)
+    {
+        $id = $bookId;
         return $this->bookService->delete($id);
-        //
     }
 }

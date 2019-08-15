@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,42 +9,37 @@ use Illuminate\Http\Request;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
-Route::post('/posts','BookController@store');
+ */
+Route::post('/books', 'BookController@store');
+Route::post('/books/{bookId}', 'BookController@update');
+Route::get('/books', 'BookController@index');
+Route::get('/books/{bookId}', 'BookController@show');
+Route::middleware('auth:api', 'checkAuth')->delete('/books/{bookId}', 'BookController@destroy');
 
-Route::post('/update','BookController@update');
-Route::get('/index','BookController@index');
-Route::get('/show','BookController@show');
-
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-// Route::middleware('Authenticate:api')->function() {
-//     Route::get('logout', 'AuthController@logout')};
-Route::group([    
-    'namespace' => 'Auth',    
-    'middleware' => 'api',    
-    'prefix' => 'password'
-], function () {    
+Route::group([
+    'namespace' => 'Auth',
+    'middleware' => 'api',
+    'prefix' => 'password',
+], function () {
     Route::post('create', 'PasswordResetController@create');
     Route::get('find/{token}', 'PasswordResetController@find');
     Route::post('reset', 'PasswordResetController@reset');
 });
+
 Route::group([
-    'prefix' => 'auth'
+    'prefix' => 'auth',
 ], function () {
     Route::get('/send/email', 'AuthController@mail');
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
     Route::get('signup/activate/{token}', 'AuthController@signupActivate');
 
-Route::group([
-      'middleware' => 'auth:api'
-    ], function() {
+    Route::group([
+        'middleware' => 'auth:api',
+    ], function () {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
-     //   Route::get('delete','BookController@destroy');
-        
     });
-}); 
-Route::middleware('auth:api','checkAuth')->get('delete','BookController@destroy');
+});
+
+
